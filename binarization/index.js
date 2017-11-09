@@ -2,7 +2,6 @@ const canvas = document.getElementById('canvas');
 const video = document.getElementById('video');
 const context = canvas.getContext('2d');
 const btnStart = document.getElementById('btnStart');
-const btnCal = document.getElementById('btnCal');
 
 const config = {
   canvasWidth: 800,
