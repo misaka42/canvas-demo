@@ -1,11 +1,12 @@
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
+const pre = document.getElementById('pre');
 
 const ball = {
   fps: 60,
   canvas: {
-    width: 400,
-    height: 300,
+    width: 800,
+    height: 600,
   },
   radius: 10,
   x: 30,
@@ -42,6 +43,8 @@ function refresh () {
   if (ball.x + ball.vx > ball.canvas.width || ball.x + ball.vx < 0) {
     ball.vx = -ball.vx;
   }
+
+  pre.textContent = JSON.stringify(ball, null, 4);
 
   ball.draw();
 }

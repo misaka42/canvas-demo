@@ -43,13 +43,7 @@ function refresh () {
   ball.vy += ball.gravity;
 
   if (Math.abs(ball.vy) < ball.gravity) {
-    ball.gravity *= ball.weakenRate * ball.weakenRate;
-  }
-
-  if (ball.gravity < 0.1) {
-    ball.gravity = 0;
-    ball.vy = 0;
-    ball.vx = 0;
+    ball.gravity *= ball.weakenRate;
   }
 
   ball.vx *= .998;
