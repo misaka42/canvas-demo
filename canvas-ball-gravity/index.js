@@ -48,10 +48,10 @@ function refresh () {
 
   ball.vx *= .998;
 
-  if (ball.y + ball.vy > ball.canvas.height || ball.y + ball.vy < 0) {
+  if (ball.y + ball.vy + ball.radius > ball.canvas.height || ball.y + ball.vy - ball.radius < 0) {
     ball.vy = -ball.vy;
   }
-  if (ball.x + ball.vx > ball.canvas.width || ball.x + ball.vx < 0) {
+  if (ball.x + ball.vx + ball.radius > ball.canvas.width || ball.x + ball.vx - ball.radius < 0) {
     ball.vx = -ball.vx;
   }
 
