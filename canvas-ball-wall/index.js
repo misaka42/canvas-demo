@@ -5,19 +5,20 @@ const contextBall = canvasBall.getContext('2d');
 const pre = document.getElementById('pre');
 
 const ball = {
-  fps: 30,
+  fps: 60,
   canvas: {
     width: 800,
     height: 600,
   },
   radius: 10,
+  detectBorder: 4,
   x: 30,
   y: 30,
-  vx: 10,
-  vy: 4,
+  vx: 6,
+  vy: 14,
   color: '#000',
   draw: function() {
-    context.clearRect(0,0, canvas.width, canvas.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
     context.beginPath();
     context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
     context.closePath();
@@ -32,8 +33,8 @@ function init () {
   canvas.style.width = canvas.width / 2 + 'px';
   canvas.style.height = canvas.height / 2 + 'px';
 
-  canvasBall.width = ball.radius * 2 + 4;
-  canvasBall.height = ball.radius * 2 + 4;
+  canvasBall.width = ball.radius * 2 + ball.detectBorder * 2;
+  canvasBall.height = ball.radius * 2 + ball.detectBorder * 2;
   canvasBall.style.width = canvasBall.width / 2 + 'px';
   canvasBall.style.height = canvasBall.height / 2 + 'px';
 
@@ -41,9 +42,15 @@ function init () {
 }
 
 function refresh () {
-  const size = ball.radius * 2 + 4;
+  ball.draw();
+  const size = ball.radius * 2 + ball.detectBorder * 2;
 
-  const imageData = context.getImageData(ball.x - ball.radius - 2, ball.y - ball.radius - 2, ball.radius * 2 + 4, ball.radius * 2 + 4);
+  context.fillStyle = ball.color;
+  context.fillRect(0, 250, canvas.width, 20);
+  context.fillRect(100, 130, 20, 100);
+  context.fillRect(300, 180, 20, 100);
+
+  const imageData = context.getImageData(ball.x - ball.radius - ball.detectBorder, ball.y - ball.radius - ball.detectBorder, ball.radius * 2 + ball.detectBorder * 2, ball.radius * 2 + ball.detectBorder * 2);
   const data = imageData.data;
   contextBall.putImageData(imageData, 0, 0);
 
@@ -53,8 +60,53 @@ function refresh () {
     hasColor += data[i * 4] // r
     hasColor += data[i * 4 + 1] // g
     hasColor += data[i * 4 + 2] // b
+    hasColor += data[i * 4 + 3] // a
     if (hasColor) {
+      console.log('top');
       ball.vy = -ball.vy;
+      break;
+    }
+  }
+
+  // bottom
+  for (let i = size * size - size; i < size * size; i++) {
+    let hasColor = 0;
+    hasColor += data[i * 4] // r
+    hasColor += data[i * 4 + 1] // g
+    hasColor += data[i * 4 + 2] // b
+    hasColor += data[i * 4 + 3] // a
+    if (hasColor) {
+      console.log('bottom');
+      ball.vy = -ball.vy;
+      break;
+    }
+  }
+
+  // left
+  for (let i = 0; i < size; i++) {
+    let hasColor = 0;
+    hasColor += data[i * size * 4] // r
+    hasColor += data[i * size * 4 + 1] // g
+    hasColor += data[i * size * 4 + 2] // b
+    hasColor += data[i * size * 4 + 3] // a
+    if (hasColor) {
+      console.log('left');
+      ball.vx = -ball.vx;
+      break;
+    }
+  }
+
+  // right
+  for (let i = 0; i < size; i++) {
+    let hasColor = 0;
+    hasColor += data[(i * size + size - 1) * 4] // r
+    hasColor += data[(i * size + size - 1) * 4 + 1] // g
+    hasColor += data[(i * size + size - 1) * 4 + 2] // b
+    hasColor += data[(i * size + size - 1) * 4 + 3] // a
+    if (hasColor) {
+      console.log('right');
+      ball.vx = -ball.vx;
+      break;
     }
   }
 
@@ -69,8 +121,6 @@ function refresh () {
   ball.y += ball.vy;
 
   pre.textContent = JSON.stringify(ball, null, 4);
-
-  ball.draw();
 }
 
 init();
