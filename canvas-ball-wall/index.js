@@ -5,7 +5,7 @@ const contextBall = canvasBall.getContext('2d');
 const pre = document.getElementById('pre');
 
 const ball = {
-  fps: 60,
+  fps: 50,
   canvas: {
     width: 800,
     height: 600,
@@ -15,7 +15,7 @@ const ball = {
   x: 30,
   y: 30,
   vx: 6,
-  vy: 14,
+  vy: 10,
   color: '#000',
   draw: function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -46,9 +46,9 @@ function refresh () {
   const size = ball.radius * 2 + ball.detectBorder * 2;
 
   context.fillStyle = ball.color;
-  context.fillRect(0, 250, canvas.width, 20);
-  context.fillRect(100, 130, 20, 100);
-  context.fillRect(300, 180, 20, 100);
+  context.fillRect(250, 250, 400, 20);
+  context.fillRect(100, 130, 20, 150);
+  context.fillRect(300, 380, 20, 200);
 
   const imageData = context.getImageData(ball.x - ball.radius - ball.detectBorder, ball.y - ball.radius - ball.detectBorder, ball.radius * 2 + ball.detectBorder * 2, ball.radius * 2 + ball.detectBorder * 2);
   const data = imageData.data;
